@@ -17,7 +17,12 @@ SCALE_CONST = 0.85
 photo_xy = (36, 117)
 vstart, hstart = 77, 72
 hdist, vdist = 89, 107
-pattern = Image.open("Background.png")
+
+if is_eighties:
+    pattern = Image.open("Background2.png")
+else:
+    pattern = Image.open("Background.png")
+
 neg = Image.open("1.png")
 pos = Image.open("2.png")
 
@@ -32,48 +37,73 @@ for i in range(len(topics)-3):
     p.paste(ImageOps.scale(photo, SCALE_CONST), photo_xy)
     draw_text = ImageDraw.Draw(p)
 
-    draw_text.text(
-        (264,44 + ((not bool(students[i]["RealName"])) * 20)),
-        students[i]["Name"],
-        fill=('#dc99d1'),
-        font=ImageFont.truetype("Futura Condensed Medium.otf", 50 + ((not bool(students[i]["RealName"])) * 20)),
-        anchor="ms",
-        )
-    draw_text.text(
-        (260,40 + ((not bool(students[i]["RealName"])) * 20)),
-        students[i]["Name"],
-        fill=('#ffffff'),
-        font=ImageFont.truetype("Futura Condensed Medium.otf", 50 + ((not bool(students[i]["RealName"])) * 20)),
-        anchor="ms",
-        )
-    if students[i]["RealName"]:
+    if is_eighties:
         draw_text.text(
-            (263,73),
-            "Real name: " + students[i]["RealName"],
-            fill=('#dc99d1'),
-            font=ImageFont.truetype("Futura Condensed Medium.otf", 30),
+            (260, 48 + ((not bool(students[i]["RealName"])) * 15)),
+            students[i]["Name"],
+            fill=('#000000'),
+            font=ImageFont.truetype("Futura Condensed Medium.otf", 56 + ((not bool(students[i]["RealName"])) * 0)),
+            anchor="ms",
+            )
+        if students[i]["RealName"]:
+            draw_text.text(
+                (260, 80),
+                "Real name: " + students[i]["RealName"],
+                fill=('#000000'),
+                font=ImageFont.truetype("Futura Condensed Medium.otf", 28),
+                anchor="ms",
+                )
+        if len(students[i]["Class"]) == 2:
+            draw_text.text(
+                (260, 110),
+                "Class " + students[i]["Class"][0]+"-"+students[i]["Class"][1],
+                fill=('#000000'),
+                font=ImageFont.truetype("Futura Condensed Medium.otf", 28),
+                anchor="ms",
+                )
+    else:
+        draw_text.text(
+            (262, 50 + ((not bool(students[i]["RealName"])) * 15)),
+            students[i]["Name"],
+            fill=('#df85d4'),
+            font=ImageFont.truetype("Futura Condensed Medium.otf", 56 + ((not bool(students[i]["RealName"])) * 0)),
             anchor="ms",
             )
         draw_text.text(
-            (260,70),
-            "Real name: " + students[i]["RealName"],
+            (260, 48 + ((not bool(students[i]["RealName"])) * 15)),
+            students[i]["Name"],
             fill=('#ffffff'),
-            font=ImageFont.truetype("Futura Condensed Medium.otf", 30),
+            font=ImageFont.truetype("Futura Condensed Medium.otf", 56 + ((not bool(students[i]["RealName"])) * 0)),
             anchor="ms",
             )
-    if len(students[i]["Class"]) == 2:
-        draw_text.text(
-            (262,107),
-            "Class " + students[i]["Class"][0]+"-"+students[i]["Class"][1],
-            fill=('#dc99d1'),
-            font=ImageFont.truetype("Futura Condensed Medium.otf", 30),
-            anchor="ms",
-            )
-        draw_text.text(
-            (260,105),
-            "Class " + students[i]["Class"][0]+"-"+students[i]["Class"][1],
-            fill=('#ffffff'),
-            font=ImageFont.truetype("Futura Condensed Medium.otf", 30),
-            anchor="ms",
-            )
+        if students[i]["RealName"]:
+            draw_text.text(
+                (262, 82),
+                "Real name: " + students[i]["RealName"],
+                fill=('#df85d4'),
+                font=ImageFont.truetype("Futura Condensed Medium.otf", 28),
+                anchor="ms",
+                )
+            draw_text.text(
+                (260, 80),
+                "Real name: " + students[i]["RealName"],
+                fill=('#ffffff'),
+                font=ImageFont.truetype("Futura Condensed Medium.otf", 28),
+                anchor="ms",
+                )
+        if len(students[i]["Class"]) == 2:
+            draw_text.text(
+                (262, 112),
+                "Class " + students[i]["Class"][0]+"-"+students[i]["Class"][1],
+                fill=('#df85d4'),
+                font=ImageFont.truetype("Futura Condensed Medium.otf", 28),
+                anchor="ms",
+                )
+            draw_text.text(
+                (260, 110),
+                "Class " + students[i]["Class"][0]+"-"+students[i]["Class"][1],
+                fill=('#ffffff'),
+                font=ImageFont.truetype("Futura Condensed Medium.otf", 28),
+                anchor="ms",
+                )
     p.save(f"{config['MAIN']['resultfolder_path']}/Интересы {students[i]['Name'].split()[0]}.png")
